@@ -1,45 +1,28 @@
 const express = require("express");
-const multer = require("multer");
+const multer =require("multer")
 const path = require("path");
 const app = express();
-const router = express.Router();
-const db=require("./DataBaseConnection")
 
+const db=require("./DataBaseConnection")
 const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
+// import  route
+
+const projectRoute=require("./projectsRoute")
+
+
+// defiend root  folder 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
-// multer file uploaded function 
-const upload=require("./multer")
+
+// use router 
+
+app.use("/projects",projectRoute )
 
 
-
-
-// images path store on database with others data
-app.post("/projects/data", upload.single("image"), (req, res, next) => {
-  const url = req.protocol + '://' + req.get('host')
-  const imgFolder = req.body.imgFolder;
-  const vertical = req.body.vertical;
-
-  const img = url + '/uploads/' + req.file.filename;
-
-  db.query(
-    "INSERT INTO projects (fileName, vertical, img) VALUES (?,?,?)",
-    [imgFolder, vertical, img],
-    (err, result) => {
-      if (err) {
-       
-        res.send("fail to uplioaded");
-      } else {
-        res.send("Values Inserted");
-        console.log(result)
-      }
-    }
-  );
-});
 
 // get projects data from database
 app.get("/projects", (req, res) => {
