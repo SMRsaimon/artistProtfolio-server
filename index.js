@@ -3,22 +3,23 @@ const multer =require("multer")
 const path = require("path");
 const app = express();
 const db=require("./DataBaseConnection")
+const nodemailer = require('nodemailer');
 const cors = require("cors");
 app.use(cors());
 app.use(express.json());
-
+require('dotenv').config();
 // import  router
-const projectRoute=require("./projectsRoute")
+const projectRoute=require("./projectsRoute");
+const adminRoute = require("./adminRoute");
 
 
 // defiend root  folder 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-
-
 // use router 
-
 app.use("/projects",projectRoute )
+
+app.use("/admin", adminRoute)
 
 
 
@@ -42,29 +43,3 @@ app.listen(3001, () => {
 });
 
 
-// app.put("/update", (req, res) => {
-//   const id = req.body.id;
-//   const wage = req.body.wage;
-//   db.query(
-//     "UPDATE employees SET wage = ? WHERE id = ?",
-//     [wage, id],
-//     (err, result) => {
-//       if (err) {
-//         console.log(err);
-//       } else {
-//         res.send(result);
-//       }
-//     }
-//   );
-// });
-
-// app.delete("/delete/:id", (req, res) => {
-//   const id = req.params.id;
-//   db.query("DELETE FROM employees WHERE id = ?", id, (err, result) => {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       res.send(result);
-//     }
-//   });
-// });

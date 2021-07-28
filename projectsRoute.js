@@ -37,7 +37,7 @@ projectsRoute.post("/details/data/insert", (req, res, next) => {
   const title = req.body.title;
   const description = req.body.description;
 
-  console.log(req.body)
+
 
   db.query(
     "INSERT INTO projectsdetails (fileName, title, description) VALUES (?,?,?)",
@@ -72,6 +72,49 @@ projectsRoute.get("/data/get", (req, res, next) => {
 });
 
 
-// get projects  images data from data base
+// get projects details data from data base
+
+
+projectsRoute.get("/details/data/getDetails", (req, res, next) => {
+    db.query("SELECT * FROM projectsdetails", (err, result) => {
+      if (err) {
+         res.status(500).send("server error ")
+      } else {
+        res.status(200).send(result);
+      }
+    });
+  });
+  
+
+
+
 
 module.exports = projectsRoute;
+
+
+// app.put("/update", (req, res) => {
+//   const id = req.body.id;
+//   const wage = req.body.wage;
+//   db.query(
+//     "UPDATE employees SET wage = ? WHERE id = ?",
+//     [wage, id],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.send(result);
+//       }
+//     }
+//   );
+// });
+
+// app.delete("/delete/:id", (req, res) => {
+//   const id = req.params.id;
+//   db.query("DELETE FROM employees WHERE id = ?", id, (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.send(result);
+//     }
+//   });
+// });
