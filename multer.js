@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
 // file upload finnal object
 var upload = multer({
   storage: storage,
-  limit: {
+  limits: {
     fileSize: 1000000,
   },
   fileFilter: (res, file, cb) => {
@@ -39,6 +39,7 @@ var upload = multer({
       cb(null, true);
     } else {
       cb(new Error("Only jpg, jpeg, png formate  allowed!"));
+
     }
   },
 });
