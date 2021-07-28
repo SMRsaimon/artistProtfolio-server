@@ -6,28 +6,30 @@ const adminRoute = express.Router();
 
 adminRoute.post("/api/createAdmin", async (req, res, next) => {
   try {
-    const hasingPassword = await bcrypt.hash(req.body.password, 10);
+    const hashingPassword = await bcrypt.hash(req.body.password, 10);
     const email = req.body.email;
-    const date= new Date()
+    const date = new Date();
+    db.query(
+      "INSERT INTO adminCollection (email, password,created_at) VALUES (?,?,?)",
+      [email, hashingPassword, date],
+      (err, result) => {
+        if (err) {
+          res.status(500).send("server error ");
 
-    const result = await db.query(
-      "INSERT INTO adminCollection (email, hasingPassword,created_at) VALUES (?,?,?)",
-      [email, hasingPassword,date]
+          next();
+        }
+        if (result) {
+          res.status(200).send(result);
+          next();
+        }
+      }
     );
 
+    
+  } catch (error) {
+    
 
-    res.status(200).send(result);
-    console.log(result);
-
-
-  } 
-  
-  
-  
-  catch (error) {
-    console.log(err);
-
-    res.status(200).send(err)
+    res.status(500).send(error);
   }
 });
 
