@@ -8,10 +8,11 @@ adminRoute.post("/api/createAdmin", async (req, res, next) => {
   try {
     const hasingPassword = await bcrypt.hash(req.body.password, 10);
     const email = req.body.email;
+    const date= new Date()
 
     const result = await db.query(
-      "INSERT INTO adminCollection (email, hasingPassword) VALUES (?,?)",
-      [email, hasingPassword]
+      "INSERT INTO adminCollection (email, hasingPassword,created_at) VALUES (?,?,?)",
+      [email, hasingPassword,date]
     );
 
 

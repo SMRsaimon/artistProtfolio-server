@@ -12,12 +12,14 @@ projectsRoute.post("/data/insert", upload.single("image"), (req, res, next) => {
   const url = req.protocol + "://" + req.get("host");
   const imgFolder = req.body.imgFolder;
   const vertical = req.body.vertical;
+  const squire = req.body.squire;
+  const date=new Date()
 
   const img = url + "/uploads/" + req.file.filename;
   // insert data on database
   db.query(
-    "INSERT INTO projects (fileName, vertical, img) VALUES (?,?,?)",
-    [imgFolder, vertical, img],
+    "INSERT INTO projects (created_at,fileName, vertical,squire, img) VALUES (?,?,?,?,?)",
+    [date, imgFolder, vertical,squire, img],
     (err, result) => {
       if (err) {
         res.status(500).send("fail to uploaded");
@@ -37,11 +39,11 @@ projectsRoute.post("/details/data/insert", (req, res, next) => {
   const title = req.body.title;
   const description = req.body.description;
 
-
+  const date=new Date()
 
   db.query(
-    "INSERT INTO projectsdetails (fileName, title, description) VALUES (?,?,?)",
-    [fileName, title, description],
+    "INSERT INTO projectsdetails (fileName, title, description, created_at) VALUES (?,?,?,?)",
+    [fileName, title, description,date],
     (err, result) => {
       if (err) {
         res.status(500).send("server error ");

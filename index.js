@@ -12,7 +12,6 @@ require('dotenv').config();
 const projectRoute=require("./projectsRoute");
 const adminRoute = require("./adminRoute");
 
-
 // defiend root  folder 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
