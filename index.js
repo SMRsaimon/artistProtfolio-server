@@ -1,5 +1,6 @@
 const express = require("express");
 const multer =require("multer")
+const env=require("dotenv")
 const path = require("path");
 const app = express();
 const db=require("./DataBaseConnection")
@@ -7,7 +8,7 @@ const nodemailer = require('nodemailer');
 const cors = require("cors");
 app.use(cors());
 app.use(express.json());
-require('dotenv').config();
+env.config();
 // import  router
 const projectRoute=require("./projectsRoute");
 const adminRoute = require("./adminRoute");
@@ -37,8 +38,10 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(3001, () => {
-  console.log(" server is running on port 3001");
+const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 5000;
+
+app.listen(port, () => {
+  console.log(" server is running on port"+port);
 });
 
 

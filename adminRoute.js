@@ -1,9 +1,10 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const db = require("./DataBaseConnection");
-
+const jwt = require("jsonwebtoken");
 const adminRoute = express.Router();
 
+// create admin with password
 adminRoute.post("/api/createAdmin", async (req, res, next) => {
   try {
     const hashingPassword = await bcrypt.hash(req.body.password, 10);
@@ -24,13 +25,56 @@ adminRoute.post("/api/createAdmin", async (req, res, next) => {
         }
       }
     );
-
-    
   } catch (error) {
-    
-
     res.status(500).send(error);
   }
+});
+
+// admin login route
+
+adminRoute.post("/login", (req, res, next) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  db.query(
+    "SELECT * FROM adminCollection WHERE email = ?;",
+    email,
+    (err, result) => {
+      if (err) {
+        res.send({ err: err });
+      }
+
+      if (result.length > 0) {
+        bcrypt.compare(password, result[0].password, (error, response) => {
+          if (response) {
+            const token =jwt.sign(
+              {
+                email: result[0].email,
+                id: result[0].id,
+              }, 
+              process.env.JWT_SECRET,
+              {
+                expiresIn: "12h",
+              }
+            );
+
+            res.status(200).json({
+              access_token: token,
+              message: "Login successful! ",
+            });
+          } else {
+            console.log("Wrong username/password combination!");
+            res
+              .status(401)
+              .send({ message: "Wrong username/password combination!" });
+          }
+        });
+      } else {
+        console.log("User doesn't exist");
+        res.status(404).send({ message: "User doesn't exist" });
+      }
+    }
+  );
 });
 
 module.exports = adminRoute;
