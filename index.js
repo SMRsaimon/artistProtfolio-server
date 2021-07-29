@@ -13,6 +13,7 @@ dotenv.config();
 const projectRoute=require("./Router/projectsRoute");
 const logInRoute = require("./Router/logInRoute");
 const adminPanelRouter = require("./Router/adminPanelRouter");
+const authCheck = require("./Middleware/authCheck");
 
 // defiend root  folder 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -20,7 +21,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // use router 
 app.use("/projects", projectRoute )
 app.use("/admin/login",  logInRoute)
-app.use("/adminPanel", adminPanelRouter)
+app.use("/adminPanel", authCheck, adminPanelRouter)
 
 
 

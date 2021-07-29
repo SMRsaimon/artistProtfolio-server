@@ -2,12 +2,14 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const db = require("../DataBaseConnection");
 const jwt = require("jsonwebtoken");
+const authCheck = require("../Middleware/authCheck");
 const logInRoute = express.Router();
 
 // create admin with password
 logInRoute.post("/api/createAdmin", async (req, res, next) => {
   try {
     const hashingPassword = await bcrypt.hash(req.body.password, 10);
+
     const email = req.body.email;
     const date = new Date();
     db.query(
@@ -16,12 +18,9 @@ logInRoute.post("/api/createAdmin", async (req, res, next) => {
       (err, result) => {
         if (err) {
           res.status(500).send("server error ");
-
-          next();
         }
         if (result) {
           res.status(200).send(result);
-          next();
         }
       }
     );
@@ -47,13 +46,12 @@ logInRoute.post("/api/login", (req, res, next) => {
       if (result.length > 0) {
         bcrypt.compare(password, result[0].password, (error, response) => {
           if (response) {
-            const token =jwt.sign(
+            const token = jwt.sign(
               {
                 email: result[0].email,
                 id: result[0].id,
-              }, 
-              process.env.JWT_SECRET,
-             
+              },
+              process.env.JWT_SECRET
             );
 
             res.status(200).json({
