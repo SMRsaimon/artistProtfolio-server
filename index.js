@@ -1,6 +1,6 @@
 const express = require("express");
 const multer =require("multer")
-const env=require("dotenv")
+const dotenv=require("dotenv")
 const path = require("path");
 const app = express();
 const db=require("./DataBaseConnection")
@@ -8,20 +8,19 @@ const nodemailer = require('nodemailer');
 const cors = require("cors");
 app.use(cors());
 app.use(express.json());
-env.config();
+dotenv.config();
 // import  router
-const projectRoute=require("./projectsRoute");
-const adminRoute = require("./adminRoute");
+const projectRoute=require("./Router/projectsRoute");
+const logInRoute = require("./Router/logInRoute");
+const adminPanelRouter = require("./Router/adminPanelRouter");
 
 // defiend root  folder 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // use router 
-app.use("/projects",projectRoute )
-
-app.use("/admin", adminRoute)
-
-
+app.use("/projects", projectRoute )
+app.use("/admin/login",  logInRoute)
+app.use("/adminPanel", adminPanelRouter)
 
 
 

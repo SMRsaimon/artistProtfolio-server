@@ -1,11 +1,11 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const db = require("./DataBaseConnection");
+const db = require("../DataBaseConnection");
 const jwt = require("jsonwebtoken");
-const adminRoute = express.Router();
+const logInRoute = express.Router();
 
 // create admin with password
-adminRoute.post("/api/createAdmin", async (req, res, next) => {
+logInRoute.post("/api/createAdmin", async (req, res, next) => {
   try {
     const hashingPassword = await bcrypt.hash(req.body.password, 10);
     const email = req.body.email;
@@ -32,7 +32,7 @@ adminRoute.post("/api/createAdmin", async (req, res, next) => {
 
 // admin login route
 
-adminRoute.post("/login", (req, res, next) => {
+logInRoute.post("/api/login", (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
 
@@ -53,9 +53,7 @@ adminRoute.post("/login", (req, res, next) => {
                 id: result[0].id,
               }, 
               process.env.JWT_SECRET,
-              {
-                expiresIn: "12h",
-              }
+             
             );
 
             res.status(200).json({
@@ -77,4 +75,4 @@ adminRoute.post("/login", (req, res, next) => {
   );
 });
 
-module.exports = adminRoute;
+module.exports = logInRoute;

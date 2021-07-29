@@ -1,8 +1,8 @@
 const express = require("express");
 const projectsRoute = express.Router();
-const db = require("./DataBaseConnection");
+const db = require("../DataBaseConnection");
 // multer file uploaded function
-const upload = require("./multer");
+const upload = require("../Multer/multer");
 
 
 
