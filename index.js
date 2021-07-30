@@ -14,6 +14,7 @@ const projectRoute=require("./Router/projectsRoute");
 const logInRoute = require("./Router/logInRoute");
 const adminPanelRouter = require("./Router/adminPanelRouter");
 const authCheck = require("./Middleware/authCheck");
+const adminInfoRoute = require("./Router/adminInfoRoute");
 
 // defiend root  folder 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -22,7 +23,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use("/projects", projectRoute )
 app.use("/admin/login",  logInRoute)
 app.use("/adminPanel", authCheck, adminPanelRouter)
-
+app.use("/adminInformation", adminInfoRoute)
 
 
 //custom  error handeling
