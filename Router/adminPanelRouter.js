@@ -1,7 +1,7 @@
 const express = require("express");
 const adminPanelRouter = express.Router();
 const db = require("../DataBaseConnection");
-const authCheck = require("../Middleware/authCheck");
+
 
 // GET method
 // get all created admin   from data base

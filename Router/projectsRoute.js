@@ -92,10 +92,10 @@ projectsRoute.get("/details/data/getDetails", (req, res, next) => {
   });
   
 
-  // PATCH Method update data on database
+  // PATCH Method update images data on database
 
   // Update images in database by ID
-projectsRoute.patch("/data/update", authCheck,  upload.single("image"), (req, res, next) => {
+projectsRoute.patch("/data/img/update", authCheck,  upload.single("image"), (req, res, next) => {
   const url = req.protocol + "://" + req.get("host");
   const id = req.body.id;
   const img = url + "/uploads/" + req.file.filename;
@@ -115,6 +115,27 @@ projectsRoute.patch("/data/update", authCheck,  upload.single("image"), (req, re
 });
 
 
+// DELETE Method to delete project images 
+
+projectsRoute.delete("/data/img/delete/:id", authCheck,(req, res, next) => {
+ 
+  const id = req.params.id;
+ 
+
+  // update images on database
+  db.query("DELETE FROM projects WHERE id = ?", id, (err, result) => {
+    if (err) {
+
+     
+      res.status(500).send("server error")
+    } 
+    if(result){
+
+     
+        res.status(200).send(result)
+    }
+  });
+});
 
 
 
