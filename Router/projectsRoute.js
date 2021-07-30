@@ -1,6 +1,7 @@
 const express = require("express");
 const projectsRoute = express.Router();
 const db = require("../DataBaseConnection");
+const authCheck = require("../Middleware/authCheck");
 // multer file uploaded function
 const upload = require("../Multer/multer");
 
@@ -8,7 +9,7 @@ const upload = require("../Multer/multer");
 
 // POST Method 
 // project data post method
-projectsRoute.post("/data/insert", upload.single("image"), (req, res, next) => {
+projectsRoute.post("/data/insert", authCheck,upload.single("image"), (req, res, next) => {
   const url = req.protocol + "://" + req.get("host");
   const imgFolder = req.body.imgFolder;
   const vertical = req.body.vertical;
@@ -32,9 +33,12 @@ projectsRoute.post("/data/insert", upload.single("image"), (req, res, next) => {
   );
 });
 
+
+
+
 // insert project details in database
 
-projectsRoute.post("/details/data/insert", (req, res, next) => {
+projectsRoute.post("/details/data/insert",authCheck, (req, res, next) => {
   const fileName = req.body.descriptionFolder;
   const title = req.body.title;
   const description = req.body.description;
@@ -87,6 +91,29 @@ projectsRoute.get("/details/data/getDetails", (req, res, next) => {
     });
   });
   
+
+  // PATCH Method update data on database
+
+  // Update images in database by ID
+projectsRoute.patch("/data/update", authCheck,  upload.single("image"), (req, res, next) => {
+  const url = req.protocol + "://" + req.get("host");
+  const id = req.body.id;
+  const img = url + "/uploads/" + req.file.filename;
+
+  // update images on database
+  db.query(
+    "UPDATE projects SET img = ? WHERE id = ?",
+    [img, id],
+    (err, result) => {
+      if (err) {
+         res.status(500).send("server Error")
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
 
 
 
