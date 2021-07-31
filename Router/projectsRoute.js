@@ -125,8 +125,7 @@ projectsRoute.patch(
     const id = req.params.id;
     const description = req.body.text
 
-    console.log(description)
-
+   
     // update images on database
     db.query(
       "UPDATE projectsdetails SET description = ? WHERE id = ?",
@@ -141,6 +140,24 @@ projectsRoute.patch(
     );
   }
 );
+
+// Delete Method for delete project details 
+
+// api: http://localhost:5000/projects/details/description/delete/:id
+
+projectsRoute.delete("/details/description/delete/:id", authCheck, (req, res, next) => {
+  const id = req.params.id;
+
+  // update images on database
+  db.query("DELETE FROM projectsdetails WHERE id = ?", id, (err, result) => {
+    if (err) {
+      res.status(500).send("server error");
+    }
+    if (result) {
+      res.status(200).send(result);
+    }
+  });
+});
 
 // DELETE Method to delete project images
 
@@ -157,6 +174,10 @@ projectsRoute.delete("/data/img/delete/:id", authCheck, (req, res, next) => {
     }
   });
 });
+
+
+
+
 
 module.exports = projectsRoute;
 
