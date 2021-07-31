@@ -76,7 +76,7 @@ projectsRoute.get("/data/get", (req, res, next) => {
 });
 
 // get projects details data from data base
-
+// http://localhost:5000/projects/details/data/getDetails
 projectsRoute.get("/details/data/getDetails", (req, res, next) => {
   db.query("SELECT * FROM projectsdetails", (err, result) => {
     if (err) {
