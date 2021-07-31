@@ -64,7 +64,7 @@ projectsRoute.post("/details/data/insert", authCheck, (req, res, next) => {
 
 // GET method
 // get projects  images data from data base
-
+// http://localhost:5000/projects/data/get
 projectsRoute.get("/data/get", (req, res, next) => {
   db.query("SELECT * FROM projects", (err, result) => {
     if (err) {
@@ -103,6 +103,34 @@ projectsRoute.patch(
     db.query(
       "UPDATE projects SET img = ? WHERE id = ?",
       [img, id],
+      (err, result) => {
+        if (err) {
+          res.status(500).send("server Error");
+        } else {
+          res.send(result);
+        }
+      }
+    );
+  }
+);
+
+// Update project Details Description on database
+
+// http://localhost:5000/projects/details/description/update/${id}
+projectsRoute.patch(
+  "/details/description/update/:id",
+  authCheck,
+
+  (req, res, next) => {
+    const id = req.params.id;
+    const description = req.body.text
+
+    console.log(description)
+
+    // update images on database
+    db.query(
+      "UPDATE projectsdetails SET description = ? WHERE id = ?",
+      [description, id],
       (err, result) => {
         if (err) {
           res.status(500).send("server Error");
