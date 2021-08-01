@@ -19,8 +19,11 @@ adminInfoRoute.get("/api/contractInformation/get", (req, res, next) => {
   });
 });
 
+
+
+
 //   PUT Method
-// Update profile img on database
+// Update profile img on database onHandel change  
 
 // api: http://localhost:5000/adminInformation/api/profileImg/update/:id
 
