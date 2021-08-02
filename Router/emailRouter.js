@@ -27,6 +27,10 @@ emailRouter.post("/emailsend/data/post", (req, res, next) => {
     to: process.env.RECEIVER_EMAIL,
     subject: name,
     text: message,
+    html: `<div> <p> <strong> Name: ${name} </strong></p> 
+    <p> <strong> Number: ${number? number:""} </strong></p>
+           </div>
+          `
   };
   // send mail with defined transport object
   transporter.sendMail(mailOptions, (error, info) => {
