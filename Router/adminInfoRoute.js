@@ -35,7 +35,7 @@ adminInfoRoute.patch(
     const url = req.protocol + "://" + req.get("host");
     const id = req.params.id;
     const img = url + "/uploads/" + req.file.filename;
-    console.log(img, id);
+
     // update images on database
     db.query(
       "UPDATE admininformation SET profileImg = ?  WHERE id = ?",
@@ -43,7 +43,7 @@ adminInfoRoute.patch(
       (err, result) => {
         if (err) {
           res.status(500).send("server Error");
-          console.log(err);
+          
         } else {
           res.send(result);
         }

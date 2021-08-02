@@ -15,7 +15,7 @@ const authCheck = require("../Middleware/authCheck");
     const heading=req.body.heading;
     const bioInformation=req.body.paraGraph
     const date = new Date();
-  console.log(req.body)
+  
     db.query(
       "INSERT INTO bioinformation (heading, bioInformation, created_at) VALUES (?,?,?)",
       [heading, bioInformation, date],

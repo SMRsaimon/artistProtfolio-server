@@ -59,14 +59,14 @@ logInRoute.post("/api/login", (req, res, next) => {
               message: "Login successful! ",
             });
           } else {
-            console.log("Wrong username/password combination!");
+           
             res
               .status(401)
               .send({ message: "Wrong username/password combination!" });
           }
         });
       } else {
-        console.log("User doesn't exist");
+        
         res.status(404).send({ message: "User doesn't exist" });
       }
     }

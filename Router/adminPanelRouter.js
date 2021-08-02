@@ -28,12 +28,12 @@ adminPanelRouter.delete("/api/admin/delete/:id", (req, res, next) => {
   db.query("DELETE FROM admincollection WHERE id = ?", id, (err, result) => {
     if (err) {
 
-      console.log(err)
+     
       res.status(500).send("server error")
     } 
     if(result){
 
-      console.log(result)
+     
 
         res.status(200).send(result)
     }
