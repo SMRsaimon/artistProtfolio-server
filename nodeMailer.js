@@ -1,9 +1,16 @@
 
-
+const express=require("express")
+const  nodeMailerRoute=express.Router()
 
 // Node mailer
 // create reusable transporter object using the default SMTP transport
+nodeMailerRoute.post("/sendEmail/data/post", (req,res,next)=>{
 
+        
+
+
+
+})
 let transporter = nodemailer.createTransport({
 
   
