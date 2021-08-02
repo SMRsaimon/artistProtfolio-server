@@ -90,8 +90,21 @@ bioInfoRouter.patch(
 // DELETE Method
   // Delete Bio information on databse by ID
   //  GET Method
-// api: http://localhost:5000/bioInfo/api/bioInformation/update/:id
+// api: http://localhost:5000/bioInfo/api/bioInformation/delete/:id
 
+bioInfoRouter.delete("/api/bioInformation/delete/:id", authCheck, (req, res, next) => {
+  const id = req.params.id;
+
+  // update images on database
+  db.query("DELETE FROM bioInformation WHERE id = ?", id, (err, result) => {
+    if (err) {
+      res.status(500).send("server error");
+    }
+    if (result) {
+      res.status(200).send(result);
+    }
+  });
+});
 
 
  module.exports=bioInfoRouter
